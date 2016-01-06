@@ -18,8 +18,6 @@ Rationale for each instruction is *italic*. Some instructions are under the *pur
 
   - `with`
 
-  - `alert` and  `confirm`
-
   - primitive type wrapper constructors (`new Number`, `new String`, `new Boolean`, `new Array`, `new Object`)
 
   - tabs (they are evil, don't use them)
@@ -28,7 +26,7 @@ Rationale for each instruction is *italic*. Some instructions are under the *pur
 
 *`with` present the same kind of issues than `eval`. In addition, it is often ambiguous. See [the MDN with docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with).*
 
-*`alert` and `confirm` are legacy of the past. They are synchronously blocking and highly user disruptive.*
+*Use of tabs should be avoided because (as of this writing in the 21st Century) there still is not a standard for the placement of tabstops.*
 
 *Primitive type wrappers are slower than their primitive counterparts. They also cause subtle bugs with `instanceof`.*
 
@@ -163,7 +161,7 @@ const b = `foo${a}bar`;
 const c = 'foobar';
 ```
 
-*Mostly pure convention. Backticks are always preferred for dynamic strings as they are easier to read and easier to scan.*
+*Mostly pure convention. Backticks are always preferred for dynamic strings as they are easier to read and easier to scan. When working with the DOM, single quotes require less string manipulation to produce valid HTML.*
 
 ## var, let, const
 
@@ -1064,3 +1062,7 @@ const a = {
 ```
 
 *Pure convention. Also, `Promise` and `yield` are interoperable, see [`Promise#coroutine`](https://github.com/petkaantonov/bluebird/blob/master/API.md#generators).*
+
+## Alert and Confirm
+
+- `alert` and `confirm` **should not** be used. The exception to this is 508 mode. As of today, the most accessible alternative to our current toast messages is the `alert` or `confirm` box.
