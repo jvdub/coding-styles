@@ -1,10 +1,10 @@
-# ES6 Coding Style
+# JavaScript Coding Style
 
-This document is intended to provide consistent and helpful coding convention for ES6 code. It should be usable either in Node/IO.js or in the browser.
+This document is intended to provide consistent and helpful coding convention for JavaScript code. The main focus of this document is around the ES2015 standard, but it does address older standards when applicable. It should be usable either in Node/IO.js or in the browser.
 
-The recommended transpiling tool for ES6 to ES5 is [babel](http://babeljs.io/). The recommended bundler for the browser is [webpack](https://github.com/webpack/webpack), but [browserify](http://browserify.org/) is also acceptable.
+The recommended transpiling tool for ES2015 to ES5 is [babel](http://babeljs.io/). The recommended bundler for the browser is [webpack](https://github.com/webpack/webpack), but [browserify](http://browserify.org/) is also acceptable.
 
-The recommended text editor is Sublime Text using [babel-sublime](https://github.com/babel/babel-sublime). Other editors are acceptable, as long as they have proper ES6 and optionally, JSX support.
+The recommended text editor is Sublime Text using [babel-sublime](https://github.com/babel/babel-sublime). Other editors are acceptable, as long as they have proper ES2015 and optionally, JSX support.
 
 Instructions denoted as **must**/**must not** are *mandatory*. Instructions denoted as **should**/**should not** are *preferred*.
 
@@ -14,15 +14,15 @@ Rationale for each instruction is *italic*. Some instructions are under the *pur
 
 - The following constructs **must not** be used, for both performance and critical security reasons.
 
-  - `eval` and similar `new Function`, `setTimeout(string)`, `setInterval(string)`, `setImmediate(string)` (however `setTimeout(function)` etc. is perfectly fine).
+  - `eval` and similar `new Function`, `setTimeout(string)`, `setInterval(string)`, `setImmediate(string)` (however `setTimeout(function)` etc. is perfectly fine)
 
-  - `with`,
+  - `with`
 
-  - `alert` and  `confirm`,
+  - `alert` and  `confirm`
 
-  - primitive type wrapper constructors (`new Number`, `new String`, `new Boolean`, `new Array`, `new Object`),
+  - primitive type wrapper constructors (`new Number`, `new String`, `new Boolean`, `new Array`, `new Object`)
 
-  - tabs (they are evil, don't use them).
+  - tabs (they are evil, don't use them)
 
 *`eval` and similar prevents runtime optimizations and leaks the execution context. See [How evil is eval?](https://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/).*
 
@@ -38,7 +38,7 @@ Rationale for each instruction is *italic*. Some instructions are under the *pur
 
 ## Casing
 
-- Regular identifiers **must** be formatted `likeThis`.
+- Regular identifiers **must** be formatted in Camel Case `likeThis`.
 
 - Only functions with constructor semantics, classes, or namespaces **must** start with an Uppercase letter (PascalCase), `LikeThis`.
 
@@ -54,16 +54,16 @@ function Constructor() { ... }
 class Class { ... }
 const Namespace = {};
 
-if(__MACRO__) { ... }
+if (__MACRO__) { ... }
 const SOME_MAGIC_NUMBER = 1337;
 const {
-  _privateMethod() {
-    ...
-  }
+    _privateMethod() {
+        ...
+    }
 
-  publicMethod() {
-    ...
-  }
+    publicMethod() {
+        ...
+    }
 }
 ```
 
@@ -88,47 +88,48 @@ const obj = {};
 ```js
 // bad
 const obj = {
-  'not-camel-cased': ...
+    'not-camel-cased': ...
 };
 
 // good
 const obj = {
-  camelCased: ...
+    camelCased: ...
 };
 // acceptable
 const myKey = 'something-from-somewhere';
+
 const obj = {
-  [myKey]: ...
+    [myKey]: ...
 };
 ```
 
 - An object declaration **must** have spaces after each `{` and before each `}`.
 
-- If the declaration is multiline, each line **must** end with a comma, including the last one.
+- The last value in the object declaration **must not** end with a comma.
 
-- If the declaration is not multiline, the last value **must not** end with a comma.
-
-- In an object declaration, there **must not** be space before each colon but at least one after each colon.
+- In an object declaration, there **must not** be space before each colon but there **must** be one after each colon.
 
 ```js
 // bad
 const a = {
-  k1: v1,
-  k2: v2
+    k1: v1,
+    k2: v2,
 };
+
 const b = { k1: v1, k2: v2, };
 const c = {k1:v1};
 
 // good
 const a = {
-  k1: v1,
-  k2: v2,
+    k1: v1,
+    k2: v2
 };
+
 const b = { k1: v1, k2: v2 };
 const c = { k1: v2 };
 ```
 
-*Mostly pure convention. The trailing for multiline literals comma helps with adding/removing properties, and yield smaller and easier to read git diffs.*
+*Mostly pure convention.*
 
 ## Arrays
 
@@ -144,9 +145,9 @@ const a = [];
 
 ## Strings
 
-- Static strings **must** be declared using single quotes or backticks.
+- Static strings **must** be declared using single quotes.
 
-- Dynamic strings **must** be declared using ES6 template literals (backticks). Dynamic strings **must not** be declared using single- or double-quotes.
+- Dynamic strings **must** be declared using ES2015 template literals (backticks). Dynamic strings **must not** be declared using single- or double-quotes.
 
 - Never use double-quotes.
 
@@ -154,8 +155,6 @@ const a = [];
 // bad
 const a = "foobar";
 const b = 'foo' + a + 'bar';
-
-// acceptable
 const c = `foobar`;
 
 // good
@@ -168,13 +167,16 @@ const c = 'foobar';
 
 ## var, let, const
 
-- `var` **must not** be used.
+- `var` **must not** be used when writing code conforming with the ES2015 standard.
+  - `var` **must** be used when writing ES5 or earlier code.
+    - When writing ES5 code, a single `var` statement per scope **should** be used.
 
 - `const` **should** be used by default. If you really need to use `let`, its acceptable, but its most often a sign that you should refactor.
 
 - `const` (or `let`) **must** be used exactly once per variable declaration.
 
 ```js
+// ES2015 Spec Only
 // bad
 const a = 1, b = 2, c = 3;
 
@@ -187,13 +189,26 @@ const c = 3;
 const [a, b, c] = [1, 2, 3];
 ```
 
+```js
+// ES5 Spec Only
+// bad
+var a = 1;
+var b = 2;
+var c = 3;
+
+// good
+var a = 1,
+    b = 2,
+    c = 3;
+```
+
 *`var` is to be considered legacy; there are no practical use cases for `var` anymore. All values (rather than variables) should be `const` (single-assignment) by default; which means that unless otherwise specified, a value can not change behind your back. Mutability is therefore opt-in rather than opt-out. Note however that a `const` object can still be mutated; if you need deep immutability, consider using [`immutable-js`](http://facebook.github.io/immutable-js/).*
 
 ## Functions
 
 - Regular (named and hoisted) function declarations **should** be used instead of anonymous functions by default.
 
-- `new` **must not** be used with functions which are not ES6 classes.
+- `new` **must not** be used with functions which are not ES2015 classes.
 
 ```js
 // bad
@@ -212,18 +227,19 @@ const a = new A();
 - When using anonymous functions, arrow function **should** be used instead of anonymous `function`.
 
 - When using 'anonymous' `function`, a name **must** be given.
+  - Anonymous function names **should** be removed when building
 
 ```js
 const a = [1, 2, 3];
 // bad
-a.reduce(function(x, y) { return x + y; }, 0);
+a.reduce(function (x, y) { return x + y; }, 0);
 
 // better, but still bad
 a.reduce(function sum(x, y) { return x + y; }, 0);
 
 // acceptable but convoluted
 function sum(x, y) {
-  return x + y;
+    return x + y;
 }
 a.reduce(sum, 0);
 
@@ -236,23 +252,23 @@ a.reduce((x, y) => x + y, 0);
 
 ```js
 // bad
-const triple = x => 3*x;
+const triple = x => 3 * x;
 
 // good
-const triple = (x) => 3*x;
+const triple = (x) => 3 * x;
 ```
 
 - Arrow functions **should** be used instead of `Function.prototype.bind` when applicable. `self` / `_this` / `that` trickery **must not** be used.
 
 ```js
 function method(...params) {
-  ...
+    ...
 }
 
 // terribly bad
 const self = this;
-const boundMethod = function(...params) {
-  return method.apply(self, params);
+const boundMethod = function (...params) {
+    return method.apply(self, params);
 }
 
 // acceptable
@@ -271,33 +287,37 @@ const scope = (fn, thisArg) => (...params) => fn.apply(thisArg, ...params);
 ## Function parameters
 
 - A parameter **must not** be named `arguments`.
+  - Arguments **should** (almost always) be named.
+  - The `arguments` array **should not** be used to to access arguments. (very, very few exceptions)
 
 - Parameters **should** BE explicitly typechecked in a `__DEV__` block. They CAN be documented in addition.
 
-- ES6 default parameter value **should** be used when applicable.
+- ES2015 default parameter value **should** be used when applicable.
 
 - Destructuring parameter syntax **should** be used when applicable.
 
-- Explicit variadic expansion **should** be used over ES6 rest syntax. If you really need true dynamic variadic functions, ES6 rest syntax **must** be used, not `arguments` inspection.
+- Explicit variadic expansion **should** be used over ES2015 rest syntax. If you really need true dynamic variadic functions, ES2015 rest syntax **must** be used, not `arguments` inspection.
 
 ```js
 // bad
 function sum() {
-  let sum = 0;
-  for(let k = 0; k < arguments.length; k++) {
-    sum += arguments[k];
-  }
-  return sum;
+    let sum = 0;
+
+    for (let k = 0; k < arguments.length; k++) {
+        sum += arguments[k];
+    }
+
+    return sum;
 }
 
 // good
 function sum(a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0) {
-  return a + b + c + d + e + f + g + h + i;
+    return a + b + c + d + e + f + g + h + i;
 }
 
 // acceptable
 function sum(...rest) {
-  return rest.reduce((x, y) => x + y, 0);
+    return rest.reduce((x, y) => x + y, 0);
 }
 ```
 
@@ -314,7 +334,7 @@ function divide(a, b, { shouldCheckForZero = false } = {}) {
 
 }
 ```
-*ES6 destructuring assignment is a very powerful construct which considerably simplifies the use of object-as-hashes params. It also enables a kind of named parameters pattern. While named parameters are usually more readable than unnamed parameters, it really shines against the [boolean trap](http://ariya.ofilabs.com/2011/08/hall-of-api-shame-boolean-trap.html) antipattern.*
+*ES2015 destructuring assignment is a very powerful construct which considerably simplifies the use of object-as-hashes params. It also enables a kind of named parameters pattern. While named parameters are usually more readable than unnamed parameters, it really shines against the [boolean trap](http://ariya.ofilabs.com/2011/08/hall-of-api-shame-boolean-trap.html) antipattern.*
 
 ## Properties
 
@@ -340,11 +360,19 @@ t.y = 4;
 
 ## Operators
 
-- Short-hand operators `+=`-like and `++`-like operators **must not** be used. Also, consider refactoring to get rid of the underlying `let`.
+- Short-hand operators `+=`-like and `++`-like operators **should** be used with care. Consider refactoring to get rid of the underlying `let`.
+  - Use when readability doesn't suffer as a result
 
 ```js
-let n = 0;
+const a = 1;
+const b = 2;
 // bad
+const c = ++a * b++;
+const d += c++ * a;
+
+let n = 0;
+
+// Acceptable in certain situations
 n += 1;
 n++;
 
@@ -358,20 +386,20 @@ n = n + 1;
 
 ```js
 // bad
-if(!!expr) {
-  ...
+if (!!expr) {
+    ...
 }
 
 // good
-if(expr) {
-  ...
+if (expr) {
+    ...
 }
 
 // acceptable to prevent leaking values
 someUntrustedFunction(!!expr);
 ```
 
-*Pure convention for shorthand operators. Shorthand operators are marginally harder to read, but its really more of a convention. Boolean force-casting is useless and convoluted, unless you specifically care about the value of the expression leaking (besides its boolean value), but this doesn't matter in `if`-like constructs, only in function calls or return values.*
+*Shorthand operators are marginally harder to read, but its really more of a convention. Boolean force-casting is useless and convoluted, unless you specifically care about the value of the expression leaking (besides its boolean value), but this doesn't matter in `if`-like constructs, only in function calls or return values.*
 
 ## Comments
 
@@ -379,7 +407,7 @@ someUntrustedFunction(!!expr);
 
 - `/** ... */`-style **must** be used for jsdoc comments.
 
-- Be very careful when using trailing `//`. For single-line comments, comment on the previous line of whatever you're commenting.
+- Single-line comments `//` **should** go on the previous line to whatever you're commenting.
 
 *Pure convention.*
 
@@ -387,17 +415,17 @@ someUntrustedFunction(!!expr);
 
 - Tab characters **must not** be used. Ever. Tabs are evil. Don't use them.
 
-- Soft-spacing 2-characters **must** be used.
+- Soft-spacing 4-characters **must** be used.
 
 ```js
 // bad
-if(true) {
-    return 42;
+if (true) {
+  return 42;
 }
 
 // good
-if(true) {
-  return 42;
+if (true) {
+    return 42;
 }
 ```
 
@@ -406,12 +434,12 @@ if(true) {
 ```js
 // bad
 if(true){
-  ...
+    ...
 }
 
 // good
-if(true) {
-  ...
+if (true) {
+    ...
 }
 ```
 
@@ -437,17 +465,27 @@ const a = [ 1, 2 ];
 const a = [1, 2];
 ```
 
-- Space **must not** be used before the leading paren `(`.
+- Space **must** be used before the leading paren `(`.
+  - An exception to this is named function declarations
 
 ```js
 // bad
-if (true) {
-  ...
+if(true) {
+    ...
 }
 
 // good
-if(true) {
-  ...
+if (true) {
+    ...
+}
+
+// good function declarations
+function () {
+
+}
+
+function a() {
+
 }
 ```
 
@@ -470,20 +508,20 @@ function* g() {
 ```js
 // bad
 const a = {
-  * g() {
-    ...
-  }
+    * g() {
+        ...
+    }
 };
 
 // good
 const a = {
-  *g() {
-    ...
-  }
+    *g() {
+        ...
+    }
 };
 ```
 
-- Spaces **must** BE used between infix operators.
+- Spaces **must** be used between infix operators.
 
 ```js
 // bad
@@ -510,9 +548,53 @@ a.then(...)
 
 // good
 a.then(...)
-  .then(...)
-  .then(...)
-.catch(...);
+    .then(...)
+    .then(...)
+    .catch(...);
+```
+
+- Two new lines **must** precede and follow all code blocks
+  - A few exceptions:
+    - If the block is the first item in the parent block, a single preceding new line is acceptable
+    - The block is the last item in the parent block, a single trailing newline is acceptable
+    - The block is being declared as part of an object
+
+```js
+// bad
+const a;
+if (a === 1) {
+    ...
+}
+return a;
+
+// good
+const a;
+
+if (a === 1) {
+    ...
+}
+
+return a;
+
+function b() {
+    if (...) {
+        ...
+    }
+
+    const c = 5;
+
+    for (...) {
+        ...
+    }
+}
+
+const obj = {
+    x: 1,
+    y: 2,
+    z() {
+        ...
+    }
+};
 ```
 
 *Pure convention. Also, tabs are evil. Don't use them.*
@@ -523,48 +605,50 @@ a.then(...)
 
 ```js
 // bad
-if(true)
+if (true)
  return 42;
-if(true) return 42;
+if (true) return 42;
 const id = (x) => { return x; };
 
 // good
-if(true) { return 42; }
-if(true) {
-  return 42;
+if (true) { return 42; }
+
+if (true) {
+    return 42;
 }
+
 const id = (x) => x;
+
 const id = (x) => {
-  return x;
+    return x;
 };
-const id = (x) =>
-  functionCall(x)
-;
+
+const id = (x) => functionCall(x);
 ```
 
 *Always-braces is easier to maintain: one can add or remove statements/instructions without having to maintain the braces. Also easier to scan.*
 
 ## Commas
 
-- Trailing commas **must** be used for multiline literals, and **must not** be used for single-line literals.
+- Trailing commas **must not** be used for multiline literals, and **must not** be used for single-line literals.
 
 ```js
 // bad
 const a = { a: 42, b: 43, };
+
 const a = {
-  a: 42,
-  b: 42
+    a: 42,
+    b: 42,
 };
 
 // good
 const a = { a: 42, b: 42 };
+
 const a = {
-  a: 42,
-  b: 43,
+    a: 42,
+    b: 43
 };
 ```
-
-*Trailing commas are easier to maintain; one can add or remove properties without having to maintain the commas. Also produces cleaner git diffs.*
 
 ## Semicolons
 
@@ -589,23 +673,23 @@ const id = (x) => x;
 
 ```js
 // bad
-if(...) {
-  ...
-} else if(...) {
-  ...
+if (...) {
+    ...
+} else if (...) {
+    ...
 } else {
-  ...
+    ...
 }
 
 // good
-if(...) {
-  ...
+if (...) {
+    ...
 }
-else if {
-  ...
+else if (...) {
+    ...
 }
 else {
-  ...
+    ...
 }
 ```
 
@@ -661,33 +745,33 @@ const foo = bar ? baz : qux;
 
 - `for in` and `for of` **should not** be used unless you are absolutely confident you are optimizing a super hot function which your JS engine can't optimize by itself. `forEach/map` **should** be used instead.
 
-*When two constructs are equivalent, pick one and stick to it. Also, missing `hasOwnProperty` check bugs are very tedious. `for` loops are very rarely needed in ES6 code where `forEach/map` and arrow functions can achieve almost every conceivable looping pattern and are easier to reason about. In edge cases where optimization is actually needed, it can be helpful though.*
+*When two constructs are equivalent, pick one and stick to it. Also, missing `hasOwnProperty` check bugs are very tedious. `for` loops are very rarely needed in ES2015 code where `forEach/map` and arrow functions can achieve almost every conceivable looping pattern and are easier to reason about. In edge cases where optimization is actually needed, it can be helpful though.*
 
 ## Method short notation
 
-- ES6 method short notation **should** be used when applicable.
+- ES2015 method short notation **should** be used when applicable.
 
 ```js
 // bad
 const a = {
-  f: function() {
-    ...
-  }
+    f: function () {
+        ...
+    }
 }
 
 // good
 const a =  {
-  f() {
-
-  }
+    f() {
+        ...
+    }
 }
 ```
 
 *Less clutter and easier to maintain.*
 
-## ES6 modules
+## ES2015 modules
 
-- ES6 modules **must** be used, `require`-style module **must not** be used. Destructuring assignment **should** be used when applicable.
+- ES2015 modules **must** be used, `require`-style module **must not** be used. Destructuring assignment **should** be used when applicable.
 
 ```js
 // bad
@@ -712,27 +796,27 @@ import { func1, func2 } from 'moduleA';
 
 ```js
 // bad
-if(x === undefined) {
-  ...
+if (x === undefined) {
+    ...
 }
 
 // good
-if(x === void 0) {
-  ...
+if (x === void 0) {
+    ...
 }
 ```
 
-*Pure convention. Also `void 0` looks more l33t.*
+*This guarantees the value of undefined. since `undefined` is not a reserved word, it can be overridden and is not guaranteed to have an undefined value.*
 
 ## Object extension and reshaping
 
-- Object reshaping **should** be avoided by declaring their shape early with `null` values, with the notable exceptions of Objects used as maps (but in this case, ES6 Map/Set/WeakMap/WeapSet is often more suited).
+- Object reshaping **should** be avoided by declaring their shape early with `null` values, with the notable exceptions of Objects used as maps (but in this case, ES2015 Map/Set/WeakMap/WeapSet is often more suited).
 
 - `delete` **should not** be used, with the notable exceptions of Objects used as maps (see above). Settings the value to `null` **should** be used to explicitly remove a reference for garbage collection.
 
-- In case reshaping is unavoidable, `Object.assign` **must** be used. In particular, `Object.assign` **must** be used to define prototype properties on ES6 classes.
+- In case reshaping is unavoidable, `Object.assign` **must** be used. In particular, `Object.assign` **must** be used to define prototype properties on ES2015 classes.
 
-- In the particular case of a constructor function, an object **should** not be reshaped after the end of the constructor.
+- In the particular case of a constructor function, an object **should not** be reshaped after the end of the constructor.
 
 - `__proto__` **should not** be used. `Object.setPrototypeOf` **should** be used instead, but with great care.
 
@@ -758,22 +842,22 @@ function F() { ... }
 F.prototype.staticA = 43;
 F.prototype.staticB = 44;
 F.prototype.protoProp = null;
-F.prototype.method = function() {
-  ...
+F.prototype.method = function () {
+    ...
 }
 
 // good
 Object.assign(F.prototype, {
-  staticA: 43,
-  staticB: 44,
-  protoProp: null,
-  method() {
-    ...
-  }
+    staticA: 43,
+    staticB: 44,
+    protoProp: null,
+    method() {
+        ...
+    }
 });
 ```
 
-*Object reshaping highly impacts performance on frequently created/used Objects. While negligible on less frequently used Objects (eg. singletons), it is preferable to be consistent and always avoid reshaping Objects. Objects used as hashes (maps) will often be reshaped anyway so this cannot be avoided, but in this case consider using ES6 Map/Set/WeakMap/WeakSet. Usage of Object.assign instead of multiple property assignment is marginally less efficient, but is easier to maintain and enables using the ES6 method short notation. Mutating the `__proto__` has huge performance implications and should be used with extreme care.*
+*Object reshaping highly impacts performance on frequently created/used Objects. While negligible on less frequently used Objects (eg. singletons), it is preferable to be consistent and always avoid reshaping Objects. Objects used as hashes (maps) will often be reshaped anyway so this cannot be avoided, but in this case consider using ES2015 Map/Set/WeakMap/WeakSet. Usage of Object.assign instead of multiple property assignment is marginally less efficient, but is easier to maintain and enables using the ES2015 method short notation. Mutating the `__proto__` has huge performance implications and should be used with extreme care.*
 
 
 ## Classes
@@ -786,17 +870,17 @@ Object.assign(F.prototype, {
 
   - `constructor`
 
-  - public `get/set` accessors, grouped by name,
+  - public `get/set` accessors, grouped by name
 
-  - public methods,
+  - public methods
 
-  - private `get/set` accessors (with a `_` prefix), grouped by name,
+  - private `get/set` accessors (with a `_` prefix), grouped by name
 
-  - private methods (with a `_` prefix),
+  - private methods (with a `_` prefix)
 
-  - public static methods,
+  - public static methods
 
-  - private static methods (with a `_` prefix).
+  - private static methods (with a `_` prefix)
 
 - Prototype properties **should** be defined immediately after the class definition and use `Object.assign` and **should not** contain methods (set them in the class definition directly).
 
@@ -804,69 +888,68 @@ Object.assign(F.prototype, {
 
 ```js
 class Foo extends Bar {
-  // If your transpiler or environment support ES7 class properties:
-  bax = null;
-  baw = 1337;
+    // If your transpiler or environment support ES7 class properties:
+    bax = null;
+    baw = 1337;
 
-  constructor() { // constructor
-    ...
-  }
+    constructor() { // constructor
+        ...
+    }
 
-  get baz() { // public getter
-    ...
-  }
+    get baz() { // public getter
+        ...
+    }
 
-  set baz(val) { // public setter
-    ...
-  }
+    set baz(val) { // public setter
+        ...
+    }
 
-  doFoo() { // public method
-    ...
-  }
+    doFoo() { // public method
+        ...
+    }
 
-  get _baz() { // private getter
-    ...  
-  }
+    get _baz() { // private getter
+        ...  
+    }
 
-  set _baz(val) { // private setter
-    ...
-  }
+    set _baz(val) { // private setter
+        ...
+    }
 
-  _doFoo() { // private method
-    ...  
-  }
+    _doFoo() { // private method
+        ...  
+    }
 
-  // If your transpiler or environment support ES7 class properties:
-  static theFoo = 'theBar';
+    // If your transpiler or environment support ES7 class properties:
+    static theFoo = 'theBar';
 
-  static doFoo() { // public static method
-    ...
-  }
+    static doFoo() { // public static method
+        ...
+    }
 
-  static _doFoo() { // private static method
-    ...  
-  }
+    static _doFoo() { // private static method
+        ...  
+    }
 }
 
 // If your transpiler or environment doesn't support ES7 class properties:
 Object.assign(Foo.prototype, { // prototype properties
-  bax: null,
-  baw: 1337,
+    bax: null,
+    baw: 1337,
 });
 
 Object.assign(Foo, { // static properties
-  theFoo: 'theBar',
+    theFoo: 'theBar',
 });
 ```
 
-*Mostly pure conventions. Public API are closer to the beginning of the declaration, making it easier to read. Also produces cleaner diffs since private methods are more susceptible to changes than public methods. The prototype properties must be defined outside of the `class` block due to ES6 limitations, but it should be very close to the class definition.*
-
+*Mostly pure conventions. Public API are closer to the beginning of the declaration, making it easier to read. Also produces cleaner diffs since private methods are more susceptible to changes than public methods. The prototype properties must be defined outside of the `class` block due to ES2015 limitations, but it should be very close to the class definition.*
 
 ## Proxies
 
 - Proxies **must not** be used at the moment.
 
-*There is no production-ready transpilation for ES6 Proxies. In addition, they may introduce questionable black magic.*
+*There is no production-ready transpilation for ES2015 Proxies. In addition, they may introduce questionable black magic.*
 
 ## Promises
 
@@ -877,18 +960,18 @@ Object.assign(Foo, { // static properties
 ```js
 // bad
 p.then(() => {
-  ...
+    ...
 }, () => {
-  ...
+    ...
 });
 
 function f() {
-  if(...) {
-    return Promise.resolve(...);
-  }
-  else {
-    return Promise.reject(...);
-  }
+    if (...) {
+        return Promise.resolve(...);
+    }
+    else {
+        return Promise.reject(...);
+    }
 }
 
 // good
@@ -900,14 +983,14 @@ p.then(() => {
 });
 
 function f() {
-  return Promise.try(() => {
-    if(...) {
-      return ...;
-    }
-    else {
-      throw ...;
-    }
-  });
+    return Promise.try(() => {
+        if (...) {
+            return ...;
+        }
+        else {
+            throw ...;
+        }
+    });
 }
 ```
 
@@ -920,36 +1003,39 @@ function f() {
 ```js
 // bad
 function odd(n) {
-  if(n === 0) {
-    return false;
-  }
-  if(n === 1) {
-    return true;
-  }
-  return !even(n-1);
+    if (n === 0) {
+        return false;
+    }
+    if (n === 1) {
+        return true;
+    }
+
+    return !even(n-1);
 }
 
 function even(n) {
-  if(n === 0) {
-    return true;
-  }
-  if(n === 1) {
-    return false;
-  }
-  return !odd(n-1);
+    if (n === 0) {
+        return true;
+    }
+    if (n === 1) {
+        return false;
+    }
+
+    return !odd(n-1);
 }
 
 // good
 function factorial(n) {
-  function factorialLoop(n, acc) {
-    if(n === 1) {
-      return acc;
+    function factorialLoop(n, acc) {
+        if (n === 1) {
+            return acc;
+        }
+        else {
+            return factorialLoop(n - 1, n*acc);
+        }
     }
-    else {
-      return factorialLoop(n - 1, n*acc);
-    }
-  }
-  return factorialLoop(n, 1);
+
+    return factorialLoop(n, 1);
 }
 ```
 
@@ -964,16 +1050,16 @@ function factorial(n) {
 ```js
 // bad
 const a = {
-  g: function*() {
-    ...
-  }
+    g: function*() {
+        ...
+    }
 }
 
 // good
 const a = {
-  *g() {
-    ...
-  }
+    *g() {
+        ...
+    }
 }
 ```
 
